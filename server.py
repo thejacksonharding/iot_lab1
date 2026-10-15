@@ -2,7 +2,7 @@
 import socket
 import pandas as pd # in case of error, install pnadas using: pip install pandas
 # Create an empty Pandas DataFrame
-df = pd.DataFrame(columns=['Temp', 'Humd', 'Label']) # Label: 1 means valid, 0 means invalid
+df = pd.read_csv('data.csv') # Label: 1 means valid, 0 means invalid
 # next create a socket object
 s = socket.socket()
 print ("Socket successfully created")
@@ -25,7 +25,7 @@ c, addr = s.accept()
 print ('Got connection from', addr)
 # a forever loop until we interrupt it or
 # an error occurs
-i = 10 # only 10 reading will be taken. Increase it to higher according to you plan.
+i = 628 # only 10 reading will be taken. Increase it to higher according to you plan.
 while i>=0:
     #receive data from client
     client = c.recv(1024)
@@ -43,5 +43,6 @@ while i>=0:
     i = i - 1
 
 c.close()
+df = df._append(new_data, ignore_index=True)
 df.to_csv('data.csv', index=False)
 
